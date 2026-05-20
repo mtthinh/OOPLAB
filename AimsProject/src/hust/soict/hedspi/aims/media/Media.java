@@ -30,4 +30,15 @@ public class Media {
     public void setCost(float cost) {
         this.cost = cost;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Media)) {
+            return false;
+        }
+        return ((Media)obj).getTitle() == this.getTitle();
+    }
 }
