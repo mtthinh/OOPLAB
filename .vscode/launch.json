@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "StoreScreenTest",
+            "request": "launch",
+            "mainClass": "hust.soict.hedspi.test.screen.StoreScreenTest",
+            "projectName": "OOPLAB_ae82450c"
+        },
+        {
+            "type": "java",
             "name": "Painter",
             "request": "launch",
             "mainClass": "hust.soict.hedspi.javafx.Painter",

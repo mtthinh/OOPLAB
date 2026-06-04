@@ -1,10 +1,11 @@
 package hust.soict.hedspi.aims.cart;
 
-import java.util.ArrayList;
 import hust.soict.hedspi.aims.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Cart {
-    public ArrayList<Media> itemsOrdered = new ArrayList<Media>();
+    public ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 
     public void addMedia(Media media) {
         itemsOrdered.add(media);
@@ -62,5 +63,9 @@ public class Cart {
         if (!found) {
             System.out.println("No DVD found with title: " + title);
         }
+    }
+
+    public ObservableList<Media> getItemsOrdered() {
+        return itemsOrdered;
     }
 }
