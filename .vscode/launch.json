@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Aims",
+            "request": "launch",
+            "mainClass": "hust.soict.hedspi.aims.Aims",
+            "projectName": "OOPLAB_ae82450c"
+        },
+        {
+            "type": "java",
+            "name": "CartScreenTest",
+            "request": "launch",
+            "mainClass": "hust.soict.hedspi.test.screen.CartScreenTest",
+            "projectName": "OOPLAB_ae82450c"
+        },
+        {
+            "type": "java",
             "name": "StoreScreenTest",
             "request": "launch",
             "mainClass": "hust.soict.hedspi.test.screen.StoreScreenTest",

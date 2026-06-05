@@ -5,10 +5,12 @@ import hust.soict.hedspi.aims.media.Media;
 import hust.soict.hedspi.aims.media.Playable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -38,13 +40,10 @@ public class CartScreenController {
     private Button btnRemove;
 
     @FXML
-    private ToggleGroup filterCategory;
+    private Label lblTotal;
 
     @FXML
-    void btnRemovePressed(ActionEvent event) {
-        Media media = tblMedia.getSelectionModel().getSelectedItem();
-        cart.removeMedia(media);
-    }
+    private Button placeOrder;
 
     @FXML
     private RadioButton radioBtnFilterId;
@@ -56,11 +55,11 @@ public class CartScreenController {
     private TextField tfFilter;
 
     @FXML
-    private Button placeOrder;
+    private ToggleGroup filterCategory;
 
     public CartScreenController(Cart cart) {
         super();
-        this.cart = cart;
+        this.cart = cart; 
     }
 
 
@@ -73,6 +72,15 @@ public class CartScreenController {
 
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);
+        
+        // Update total cost khi cart thay đổi
+        updateTotalCost();
+        cart.getItemsOrdered().addListener(new ListChangeListener<Media>() {
+            @Override
+            public void onChanged(Change<? extends Media> c) {
+                updateTotalCost();
+            }
+        });
 
         tfFilter.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -101,20 +109,57 @@ public class CartScreenController {
         }
     }
 
+    @FXML
+    void btnRemovePressed(ActionEvent event) {
+        Media media = tblMedia.getSelectionModel().getSelectedItem();
+        if (media != null) {
+            cart.removeMedia(media);
+            showFilteredMedia(tfFilter.getText());
+        }
+    }
+
+    @FXML
+    void btnPlayPressed(ActionEvent event) {
+        Media media = tblMedia.getSelectionModel().getSelectedItem();
+        if (media != null && media instanceof Playable) {
+            ((Playable) media).play();
+        }
+    }
+
+    @FXML
+    void placeOrderPressed(ActionEvent event) {
+        if (cart.getItemsOrdered().isEmpty()) {
+            System.out.println("Cart is empty!");
+            return;
+        }
+        System.out.println("Order placed successfully!");
+        System.out.println("Total cost: " + cart.totalCost() + "$");
+        cart.getItemsOrdered().clear();
+        updateTotalCost();
+    }
+
+    private void updateTotalCost() {
+        float total = cart.totalCost();
+        lblTotal.setText(String.format("%.0f $", total));
+    }
+
     private void showFilteredMedia(String keyword) {
         FilteredList<Media> filteredList = new FilteredList<>(cart.getItemsOrdered());
-        if(!keyword.isEmpty() && radioBtnFilterId.isSelected()) {
+        
+        if(keyword != null && !keyword.isEmpty() && radioBtnFilterId.isSelected()) {
             filteredList.setPredicate(media -> {
                 String idString = String.valueOf(media.getId());
                 return idString.equals(keyword);
             });
-        } else if(!keyword.isEmpty() &&  radioBtnFilterTitle.isSelected()) {
+        } else if(keyword != null && !keyword.isEmpty() && radioBtnFilterTitle.isSelected()) {
             filteredList.setPredicate(media -> {
                 String title = media.getTitle().toLowerCase();
                 return title.contains(keyword.toLowerCase());
             });
         } else {
-            filteredList.setPredicate(null);
+            // Khi không filter, hiển thị toàn bộ
+            tblMedia.setItems(cart.getItemsOrdered());
+            return;
         }
         tblMedia.setItems(filteredList);
     }
