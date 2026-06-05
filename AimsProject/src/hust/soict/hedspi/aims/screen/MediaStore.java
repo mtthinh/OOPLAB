@@ -33,7 +33,14 @@ public class MediaStore extends JPanel {
         
         if(media instanceof Playable) {
             JButton playBtn = new JButton("Play");
-            playBtn.addActionListener(e -> ((Playable) media).play());
+            playBtn.addActionListener(e -> {
+                try {
+                    ((Playable) media).play();
+                } catch (hust.soict.hedspi.aims.exception.PlayerException ex) {
+                    System.err.println(ex.getMessage());
+                    ex.printStackTrace();
+                }
+            });
             container.add(playBtn);
         }
 

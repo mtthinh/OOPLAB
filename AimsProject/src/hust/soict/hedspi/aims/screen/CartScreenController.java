@@ -121,7 +121,12 @@ public class CartScreenController {
     void btnPlayPressed(ActionEvent event) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();
         if (media != null && media instanceof Playable) {
-            ((Playable) media).play();
+            try {
+                ((Playable) media).play();
+            } catch (hust.soict.hedspi.aims.exception.PlayerException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 

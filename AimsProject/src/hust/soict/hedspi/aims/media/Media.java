@@ -44,6 +44,9 @@ public class Media {
         if (!(obj instanceof Media)) {
             return false;
         }
-        return ((Media)obj).getTitle() == this.getTitle();
+        if (((Media)obj).getTitle() == null || this.getTitle() == null) {
+            return ((Media)obj).getTitle() == this.getTitle();
+        }
+        return ((Media)obj).getTitle().equals(this.getTitle());
     }
 }

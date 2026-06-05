@@ -243,7 +243,12 @@ public class Aims {
         }
         
         if (foundMedia instanceof Playable) {
-            ((Playable) foundMedia).play();
+            try {
+                ((Playable) foundMedia).play();
+            } catch (hust.soict.hedspi.aims.exception.PlayerException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+            }
         } else {
             System.out.println("This media cannot be played!");
         }
@@ -277,7 +282,12 @@ public class Aims {
         }
         
         if (foundMedia instanceof Playable) {
-            ((Playable) foundMedia).play();
+            try {
+                ((Playable) foundMedia).play();
+            } catch (hust.soict.hedspi.aims.exception.PlayerException e) {
+                System.err.println(e.getMessage());
+                e.printStackTrace();
+            }
         } else {
             System.out.println("This media cannot be played!");
         }
