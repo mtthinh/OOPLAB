@@ -3,10 +3,12 @@ package hust.soict.hedspi.test.screen;
 import hust.soict.hedspi.aims.store.Store;
 import hust.soict.hedspi.aims.screen.*;
 import hust.soict.hedspi.aims.media.*;
+import hust.soict.hedspi.aims.cart.*;
 
 public class StoreScreenTest {
     public static void main(String[] args) {
         Store s = new Store();
+        Cart c = new Cart();
 
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("DVD1's Title");
         s.addMedia(dvd1);
@@ -42,6 +44,6 @@ public class StoreScreenTest {
         cd4.setTitle("CD9's Title");
         s.addMedia(cd4);
         
-        new StoreScreen(s);
+        new StoreScreen(s, c);
     }
 }

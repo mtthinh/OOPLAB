@@ -2,12 +2,16 @@ package hust.soict.hedspi.aims.screen;
 
 import java.awt.*;
 import javax.swing.*;
+import hust.soict.hedspi.aims.cart.Cart;
 import hust.soict.hedspi.aims.media.*;
 
 public class MediaStore extends JPanel {
     private Media media;
-    public MediaStore(Media media) {
+    private Cart cart;
+    
+    public MediaStore(Media media, Cart cart) {
         this.media = media;
+        this.cart = cart;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JLabel title = new JLabel(media.getTitle());
@@ -20,9 +24,17 @@ public class MediaStore extends JPanel {
         JPanel container = new JPanel();
         container.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        container.add(new JButton("Add to cart"));
+        JButton addToCartBtn = new JButton("Add to cart");
+        addToCartBtn.addActionListener(e -> {
+            cart.addMedia(media);
+            System.out.println("Added to cart: " + media.getTitle());
+        });
+        container.add(addToCartBtn);
+        
         if(media instanceof Playable) {
-            container.add(new JButton("Play"));
+            JButton playBtn = new JButton("Play");
+            playBtn.addActionListener(e -> ((Playable) media).play());
+            container.add(playBtn);
         }
 
         this.add(Box.createVerticalGlue());
@@ -36,5 +48,9 @@ public class MediaStore extends JPanel {
 
     public Media getMedia() {
         return media;
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 }

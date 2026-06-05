@@ -73,7 +73,6 @@ public class CartScreenController {
         btnPlay.setVisible(false);
         btnRemove.setVisible(false);
         
-        // Update total cost khi cart thay đổi
         updateTotalCost();
         cart.getItemsOrdered().addListener(new ListChangeListener<Media>() {
             @Override
@@ -157,7 +156,6 @@ public class CartScreenController {
                 return title.contains(keyword.toLowerCase());
             });
         } else {
-            // Khi không filter, hiển thị toàn bộ
             tblMedia.setItems(cart.getItemsOrdered());
             return;
         }
